@@ -1,0 +1,124 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Chat – Dark Mode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 30px auto; background: #1e1e1e; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    .tabs { display: flex; margin-bottom: 1rem; }
+    .tab-button { flex: 1; padding: 0.75rem; background: #2c2c2c; border: none; color: #e0e0e0; cursor: pointer; transition: background 0.2s; }
+    .tab-button.active { background: #121212; border-bottom: 2px solid #bb86fc; }
+    .tab-content { display: none; flex-direction: column; }
+    .tab-content.active { display: flex; }
+    .tab-content input,
+    .chat-controls select,
+    .chat-controls input { margin-bottom: 0.75rem; padding: 0.5rem; background: #2c2c2c; border: 1px solid #444; border-radius: 6px; color: #e0e0e0; }
+    button { padding: 0.6rem 1rem; border: none; border-radius: 6px; background: #bb86fc; color: #121212; cursor: pointer; transition: background 0.2s; margin-bottom: 0.75rem; }
+    button:hover { background: #985eff; }
+    .link-button { background: none; border: none; color: #03dac6; text-decoration: underline; cursor: pointer; padding: 0; font-size: 0.9rem; }
+    .hidden { display: none !important; }
+    .chat-window { height: 320px; overflow-y: auto; background: #2c2c2c; border: 1px solid #444; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .chat-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .status { font-style: italic; color: #03dac6; margin-bottom: 1rem; }
+    .sent { text-align: right; color: #bb86fc; margin: 4px 0; }
+    .recv { text-align: left; color: #03dac6; margin: 4px 0; }
+  </style>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tweetnacl@1.0.3/nacl.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tweetnacl-util@0.15.1/nacl-util.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Secure Chat</h1>
+
+    <!-- AUTHENTICATION -->
+    <div id="auth-section">
+      <div class="tabs">
+        <button class="tab-button active" data-tab="login">Login</button>
+        <button class="tab-button" data-tab="reg">Register</button>
+        <button class="tab-button" data-tab="reset">Reset Password</button>
+
+      </div>
+
+      <!-- Login Step 1 -->
+      <div class="tab-content active" id="login">
+        <input id="username" placeholder="Username">
+        <input id="password" type="password" placeholder="Password">
+        <button id="login-btn">Login</button>
+        <button id="forgot-link" class="link-button">Forgot password?</button>
+      </div>
+
+      <!-- Login OTP Step -->
+      <div class="tab-content" id="login-otp">
+        <input id="login-otp-code" placeholder="Login OTP">
+        <button id="login-verify-btn">Verify & Continue</button>
+      </div>
+
+      <!-- Register Step 1 -->
+      <div class="tab-content" id="reg">
+        <input id="reg-username" placeholder="Username">
+        <input id="reg-password" type="password" placeholder="Password">
+        <input id="reg-email" type="email" placeholder="Email">
+        <div class="g-recaptcha" data-sitekey="6LfmTTwrAAAAAJQ_joKxxjBj7RWI3PMZymB167nz"x></div>
+        <button id="reg-btn">Send OTP</button>
+      </div>
+
+      <!-- Register OTP Step -->
+      <div class="tab-content" id="reg-otp">
+        <input id="reg-otp-code" placeholder="Enter OTP">
+        <button id="reg-verify-btn">Verify & Register</button>
+      </div>
+
+      <!-- Reset Request -->
+      <div class="tab-content" id="reset">
+        <input id="reset-username" placeholder="Username">
+        <input id="reset-email" type="email" placeholder="Email">
+        <button id="reset-request-btn">Send Reset Code</button>
+      </div>
+
+      <!-- Reset Confirm -->
+      <div class="tab-content" id="reset-verify">
+        <input id="reset-code" placeholder="Reset Code">
+        <input id="reset-newpw" type="password" placeholder="New Password">
+        <button id="reset-confirm-btn">Confirm Reset</button>
+      </div>
+    </div>
+
+    <!-- CHAT SECTION (hidden until login) -->
+    <div id="chat-section" class="hidden">
+      <div class="chat-window" id="chat"></div>
+      <div class="chat-controls">
+        <select id="recipientSelect">
+          <option value="">— Select User —</option>
+        </select>
+        <input id="message" placeholder="Message">
+        <button id="send-btn" disabled>Send</button>
+        <button id="logout-btn" style="display: none;">Logout</button>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+
+  <!-- Tab switching logic -->
+  <script>
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+  </script>
+
+  <!-- Main client-side logic -->
+  <script type="module" src="/static/js/script.js"></script>
+</body>
+</html>

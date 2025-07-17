@@ -1,0 +1,32 @@
+/* === static/css/styles.css === */
+/* --- Global --- */
+body { background: #f5f5f5; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+.container { display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+/* --- Card --- */
+.card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 360px; }
+.auth-card h1, .chat-card h1 { text-align: center; margin-bottom: 1rem; }
+
+/* --- Tabs --- */
+.tabs { display: flex; margin-bottom: 1rem; }
+.tab-button { flex: 1; padding: 0.75rem; background: #eaeaea; border: none; cursor: pointer; }
+.tab-button.active { background: #fff; border-bottom: 2px solid #007bff; }
+.tab-content { display: flex; flex-direction: column; }
+.tab-content input { margin-bottom: 0.75rem; padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px; }
+
+/* --- Chat Layout --- */
+.chat-card { width: 480px; }
+.chat-window { height: 320px; overflow-y: auto; border: 1px solid #ddd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; background: #fafafa; }
+.chat-controls { display: flex; gap: 0.5rem; }
+.chat-controls select, .chat-controls input { flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px; }
+.status { margin-top: 0.5rem; font-style: italic; color: #28a745; }
+.hidden { display: none; }
+
+/* --- Buttons & Messages --- */
+button { padding: 0.6rem 1rem; border: none; border-radius: 6px; background: #007bff; color: #fff; cursor: pointer; transition: background 0.2s; }
+button:hover { background: #0056b3; }
+.sent { text-align: right; color: #007bff; margin: 4px 0; }
+.recv { text-align: left; color: #28a745; margin: 4px 0; }
+
+/* --- Header --- */
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
