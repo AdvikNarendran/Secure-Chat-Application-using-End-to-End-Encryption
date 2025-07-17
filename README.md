@@ -21,7 +21,6 @@ Before you begin, ensure you have the following installed:
 *   **pip:**  Python package installer.
 *   **Node.js and npm (Optional):** Required if you wish to modify the frontend JavaScript code and build/bundle it.
 *   **MongoDB:** Used for storing user data, login attempts, reset tokens, etc.
-*   **Redis (Recommended):**  For production use, replace the in-memory token blacklist with Redis for improved scalability and persistence.
 *   **Flask Mail:** Flask extension for sending emails (e.g., for password reset, OTP).
 
 Python packages required:
